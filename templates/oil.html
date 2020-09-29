@@ -1,0 +1,554 @@
+{% extends "layout.html" %} {% block content %}
+<title>Petroleum Inventory Level</title>
+{% endblock content %} {% block content1 %}
+<!-- Page Content -->
+<div class="entry-meta-old">Petroleum Inventory Level: A Leading Indicator of Crude Oil Prices</div>
+<div class="container-fluid" style="">
+    <div class="wrapper border rounded shadow" style="margin-top: 90px">
+        <div class="row" style="margin-top: 25px; margin-bottom: 25px">
+            <div class="col-4">
+                <p style="margin-left: 50px">Region</p>
+
+                <div class="form-check form-check-inline" style="margin-left: 50px">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="FirstSelector"
+                        value="btnUS"
+                        checked
+                    />
+                    <label class="form-check-label" for="FirstSelector">United States</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="FirstSelector"
+                        value="btnOECD"
+                    />
+                    <label class="form-check-label" for="FirstSelector">OECD</label>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <p style="margin-left: 50px">Petroleum Type</p>
+
+                <div class="form-check form-check-inline" style="margin-left: 50px">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="SecondSelector"
+                        value="btnInventory"
+                        checked
+                    />
+                    <label class="form-check-label" for="inlineRadio1">Crude + Products</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="SecondSelector"
+                        value="btnCrude"
+                    />
+                    <label class="form-check-label" for="inlineRadio1">Crude</label>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <p style="margin-left: 75px">Inventory Type</p>
+
+                <div class="form-check form-check-inline" style="margin-left: 75px">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="ThirdSelector"
+                        value="btnIncSPR"
+                        checked
+                    />
+                    <label class="form-check-label" for="inlineRadio1">Commercial + SPR</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="ThirdSelector"
+                        value="btnExlSPR"
+                    />
+                    <label class="form-check-label" for="inlineRadio1">Commercial</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="wrapper">
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-lg-8 col-md-4 col-sm-4">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div style="margin-top: 25px">
+                        <div name="USInventory" style="width: 100%">
+                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph2" style="width: 100%">
+                                <script>
+                                    var graphs2 = {{plot2 | safe}};
+                                    Plotly.plot('bargraph2',graphs2,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="OECDInventory" style="display: block">
+                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph3" style="width: 100%">
+                                <script>
+                                    var graphs3 = {{plot3 | safe}};
+                                    Plotly.plot('bargraph3',graphs3,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="USCrude" style="display: block">
+                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph4" style="width: 100%">
+                                <script>
+                                    var graphs4 = {{plot4 | safe}};
+                                    Plotly.plot('bargraph4',graphs4,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="OECDCrude" style="display: block">
+                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph5" style="width: 100%">
+                                <script>
+                                    var graphs5 = {{plot5| safe}};
+                                    Plotly.plot('bargraph5',graphs5,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="USInventory_no_spr" style="width: 100%">
+                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph6" style="width: 100%">
+                                <script>
+                                    var graphs6 = {{plot6 | safe}};
+                                    Plotly.plot('bargraph6',graphs6,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="OECDInventory_no_spr" style="display: block">
+                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph7" style="width: 100%">
+                                <script>
+                                    var graphs7 = {{plot7 | safe}};
+                                    Plotly.plot('bargraph7',graphs7,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="USCrude_no_spr" style="display: block">
+                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph8" style="width: 100%">
+                                <script>
+                                    var graphs8 = {{plot8 | safe}};
+                                    Plotly.plot('bargraph8',graphs8,{});
+                                </script>
+                            </div>
+                        </div>
+
+                        <div name="OECDCrude_no_spr" style="display: block">
+                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <div class="img" id="bargraph9" style="width: 100%">
+                                <script>
+                                    var graphs9 = {{plot9| safe}};
+                                    Plotly.plot('bargraph9',graphs9,{});
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="h-100 border rounded shadow" style="">
+                    <div name="USInventory">
+                        {% for i in tableUSInventory %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="OECDInventory" style="display: none">
+                        {% for i in tableOECDInventory %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="USCrude" style="display: none">
+                        {% for i in tableUSCrude %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="OECDCrude" style="display: none">
+                        {% for i in tableOECDCrude %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="USInventory_no_spr" style="display: none">
+                        {% for i in tableUSInventory_no_spr %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="OECDInventory_no_spr" style="display: none">
+                        {% for i in tableOECDInventory_no_spr %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="USCrude_no_spr" style="display: none">
+                        {% for i in tableUSCrude_no_spr %} {{ i |safe }} {% endfor %}
+                    </div>
+
+                    <div name="OECDCrude_no_spr" style="display: none">
+                        {% for i in tableOECDCrude_no_spr %} {{ i |safe }} {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="wrapper">
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 25px; margin-bottom: 25px">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ USForecast_inventory_corr }}
+                        </p>
+                    </div>
+
+                    <div name="USCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ USForecast_crude_corr }}
+                        </p>
+                    </div>
+
+                    <div name="USInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ USForecast_inventory_no_spr_corr }}
+                        </p>
+                    </div>
+
+                    <div name="USCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ USForecast_crude_no_spr_corr }}
+                        </p>
+                    </div>
+
+
+                    
+
+
+                       <div name="OECDInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ OECDForecast_inventory_corr }}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ OECDForecast_crude_corr }}
+                        </p>
+                    </div>
+
+                    <div name="OECDInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ OECDForecast_inventory_no_spr_corr }}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ OECDForecast_crude_no_spr_corr }}
+                        </p>
+                    </div>
+
+                    <p style="margin-top: 20px; padding-left: 20px">Correlation Coefficient</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="h-100 border rounded shadow" style="">
+                   
+                    <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (USForecast_inventory_corr **2) |round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (USForecast_crude_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (USForecast_inventory_no_spr_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (USForecast_crude_no_spr_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+
+
+<div name="OECDInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (OECDForecast_inventory_corr **2) |round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (OECDForecast_crude_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (OECDForecast_inventory_no_spr_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (OECDForecast_crude_no_spr_corr **2)|round(3)}}
+                        </p>
+                    </div>
+
+
+
+
+
+                    <p style="margin-top: 20px; padding-left: 20px">R-Squared</p>
+                </div>
+            </div>
+              <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">
+                    
+                      <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_USInventory **0.5) |round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_UScrude **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_UScrude_no_spr **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_USInventory_no_spr **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+
+                  
+
+
+
+
+
+                  <div name="OECDInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_OECDInventory **0.5) |round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_OECDcrude **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_OECDcrude_no_spr **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="OECDCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_OECDInventory_no_spr **0.5)|round(3)}}
+                        </p>
+                    </div>
+
+
+
+
+                    
+                    </p>
+                    <p style="margin-top: 20px; padding-left: 20px">RMSE</p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">
+                    
+                    
+                     <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_USInventory) |round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_UScrude)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USInventory_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_UScrude_no_spr)|round(3)}}
+                        </p>
+                    </div>
+
+                    <div name="USCrude_no_spr">
+                        <p style="margin-top: 20px; padding-left: 20px">
+                            {{ (RMSE_USInventory_no_spr)|round(3)}}
+                        </p>
+                    </div>
+                    
+                    </p>
+                    <p style="margin-top: 20px; padding-left: 20px">MSE</p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">0.9</p>
+                    <p style="margin-top: 20px; padding-left: 20px">Last Updated</p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">{{ rdates }}</p>
+                    <p style="margin-top: 20px; padding-left: 20px">Next report</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="wrapper">
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 20px; margin-bottom: 80px">
+            <div class="col-lg-8 col-md-4 col-sm-4">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div style="margin-top: 25px">
+                        <div style="width: 100%">
+                            <h4>SCATTER PLOT</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph1" style="width: 100%">
+                                <script>
+                                    var graphs1 = {{plot1 | safe}};
+                                    Plotly.plot('bargraph1',graphs1,{});
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div
+                    class="col-md-12 mb-4 border rounded shadow"
+                    style="height: 48.5%; width: 100%"
+                >
+                    <h4>WoW Crude Change</h4>
+                    <td style="padding-top: 3px"></td>
+                    <div class="img" id="bargraph10" style="width: 100%">
+                        <script>
+                            var graphs10 = {{plot10 | safe}};
+                            Plotly.plot('bargraph10',graphs10,{});
+                        </script>
+                    </div>
+                </div>
+                <div class="col-md-12 border rounded shadow" style="height: 48.5%; width: 100%">
+                    <h4>WoW Product Change</h4>
+                    <td style="padding-top: 3px"></td>
+                    <div class="img" id="bargraph11" style="width: 100%">
+                        <script>
+                            var graphs11 = {{plot11 | safe}};
+                            Plotly.plot('bargraph11',graphs11,{});
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="h-100 border rounded shadow" style="">
+
+
+    <div class="col h-50 border rounded shadow bg-warning">   
+    
+    
+  <div class="img" id="bargraph10" style="width:100%">
+                  <script>
+                     var graphs10 = {{plot10 | safe}};
+                     Plotly.plot('bargraph10',graphs10,{});
+                  </script>
+               </div>
+               </div> 
+
+             <div class="col border rounded shadow"> 
+
+             </div>
+
+         <div class="col h-50 border rounded shadow bg-danger">  
+         <div class="img" id="bargraph11" style="width:100%">
+                  <script>
+                     var graphs11 = {{plot11 | safe}};
+                     Plotly.plot('bargraph11',graphs11,{});
+                  </script>
+               </div>  
+               </div>
+               
+            </div>
+         </div>  -->
+        </div>
+    </div>
+</div>
+
+{% endblock content1 %}
