@@ -40,10 +40,13 @@
 //components: { VideoBg }
 //});
 
+// set html style to visible
+// wait for whole document to load up before we try to run any javascript
 $(document).ready(function () {
     document.getElementsByTagName("html")[0].style.visibility = "visible";
 });
 
+// 
 $("div[name=USCrude]").hide();
 $("div[name=OECDInventory]").hide();
 $("div[name=OECDCrude]").hide();
@@ -52,11 +55,14 @@ $("div[name=USInventory_no_spr]").hide();
 $("div[name=USCrude_no_spr]").hide();
 $("div[name=OECDInventory_no_spr]").hide();
 $("div[name=OECDCrude_no_spr]").hide();
+$("div[name=OECD]").hide();
 
 $("input").change(() => {
     const first = $("input[name=FirstSelector]:checked").val();
     const second = $("input[name=SecondSelector]:checked").val();
     const third = $("input[name=ThirdSelector]:checked").val();
+    $("div[name=US]").toggle(first === "btnUS");
+    $("div[name=OECD]").toggle(first === "btnOECD");
     $("div[name=USInventory]").toggle(
         first === "btnUS" && second === "btnInventory" && third === "btnIncSPR"
     );
@@ -83,40 +89,6 @@ $("input").change(() => {
     );
 });
 
-/*$("#btnUS, #btnInventory").click(function () {
-  $("#USInventory").show();
-  
-  $("#OECDInventory").hide();
-  $("#USCrude").hide();
-  $("#OECDCrude").hide();
-});
-
-
-$("#btnUS, #btnCrude").click(function () {
-  $("#USCrude").show();
-  
-  $("#OECDInventory").hide();
-  $("#USInventory").hide();
-  $("#OECDCrude").hide();
-});
-
-
-$("#btnOECD, #btnInventory").click(function () {
-  $("#OECDInventory").show();
-  
-  $("#USInventory").hide();
-  $("#USCrude").hide();
-  $("#OECDCrude").hide();
-});
-
-$("#btnOECD, #btnCrude").click(function () {
-  $("#OECDCrude").show();
-  
-  $("#OECDInventory").hide();
-  $("#USInventory").hide();
-  $("#USCrude").hide();
-}); */
-
 $(document).ready(function () {
     $("table tbody tr td").on("click", function () {
         $(this).closest("table").find("td").css({
@@ -129,3 +101,50 @@ $(document).ready(function () {
         });
     });
 });
+
+window.onresize = function () {
+    Plotly.relayout("bargraph1", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph2", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph3", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph4", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph5", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph6", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph7", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph8", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph9", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph10", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+    Plotly.relayout("bargraph11", {
+        "xaxis.autorange": true,
+        "yaxis.autorange": true,
+    });
+};

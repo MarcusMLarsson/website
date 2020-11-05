@@ -15,10 +15,96 @@ import pandas as pd
 import numpy as np
 import json
 import seaborn as sns
+from dateutil import parser
+from datetime import timezone
+import pytz
+import re
+import requests
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup as soup
+from dateutil import parser
+from datetime import timezone
+from datetime import datetime
+import pytz
+
 sns.set()
 pio.templates.default = 'plotly_white'
 
 start_time = time.time()
+
+
+url = 'https://www.eia.gov/petroleum/supply/weekly/'
+req = Request(url, headers={
+    'User-Agent': 'Mozilla/5.0'
+})
+
+
+webpage = urlopen(req).read()
+
+page_soup = soup(webpage, "html.parser")
+
+rdates = page_soup.find_all("span", class_="date")
+rdates = re.sub('<[^>]*>', '', str(rdates))
+rdates = rdates.replace("[", "")
+rdates = rdates.replace("]", "")
+rdates = rdates.replace(" ", "")
+rdates = rdates.split(',', 2)[2:3]
+utc = pytz.timezone('utc')
+
+EIAdate = parser.parse(rdates[0])
+EIAdate = EIAdate.replace(hour=14, minute=30)
+EIAdate = EIAdate.replace(tzinfo=utc)
+
+EIA_release_date = EIAdate.strftime('%b. %d, %Y')
+EIA_release_time = EIAdate.strftime('%H:' '%M UTC')
+
+timenow = datetime.utcnow()
+timenow = timenow.replace(tzinfo=utc)
+EIA_time_left = EIAdate - timenow
+days, seconds = EIA_time_left.days, EIA_time_left.seconds
+EIAhours = seconds // 3600
+EIAminutes = (seconds % 3600) // 60
+EIAseconds = seconds % 60
+
+EIA_time_left = str(days) + " days, " + str(EIAhours) + \
+    " hours, " + str(EIAminutes) + " minutes"
+
+
+url = 'https://www.eia.gov/totalenergy/data/monthly/'
+req = Request(url, headers={
+    'User-Agent': 'Mozilla/5.0'
+})
+
+webpage = urlopen(req).read()
+
+page_soup = soup(webpage, "html.parser")
+
+rdates = page_soup.find_all("span", class_="date")
+rdates = re.sub('<[^>]*>', '', str(rdates))
+rdates = rdates.replace("[", "")
+rdates = rdates.replace("]", "")
+rdates = rdates.replace(" ", "")
+rdates = rdates.split(',', 2)[2:3]
+utc = pytz.timezone('utc')
+
+OECDdate = parser.parse(rdates[0])
+OECDdate = OECDdate.replace(hour=18, minute=0)
+OECDdate = OECDdate.replace(tzinfo=utc)
+
+OECD_release_date = OECDdate.strftime('%b. %d, %Y')
+OECD_release_time = OECDdate.strftime('%H:' '%M UTC')
+
+timenow = datetime.utcnow()
+timenow = timenow.replace(tzinfo=utc)
+OECD_time_left = OECDdate - timenow
+days, seconds = OECD_time_left.days, OECD_time_left.seconds
+OECDhours = seconds // 3600
+OECDminutes = (seconds % 3600) // 60
+OECDseconds = seconds % 60
+
+OECD_time_left = str(days) + " days, " + str(OECDhours) + \
+    " hours, " + str(OECDminutes) + " minutes"
+    
 
 
 #store = Arctic('mongodb+srv://MarcusMLarsson:Britney1234@mongodb-0ydzb.azure.mongodb.net/test?retryWrites=true&w=majority')
@@ -36,7 +122,8 @@ item4 = library.read('Water_data1_crude')
 item5 = library.read('Water_data1_products')
 item6 = library.read('statsUS')
 item7 = library.read('statsOECD')
-item8 = library.read('rdates')
+item8 = library.read('crude_change_magnitude')
+item9 = library.read('products_change_magnitude')
 dfUS = item.data
 dfOECD = item1.data
 dfUStable = item2.data
@@ -45,7 +132,10 @@ Water_data1_crude = item4.data
 Water_data1_products = item5.data
 statsUS = item6.data
 statsOECD = item7.data
-rdates = item8.data
+crude_change_magnitude = item8.data
+products_change_magnitude = item9.data
+
+
 
 
 #dfOECD[["Date","Brent", "Forecast", "Error", "Inventory", "Crude", "Products"]]
@@ -162,7 +252,10 @@ def function():
 
                            RMSE_UScrude=RMSE_UScrude, RMSE_UScrude_no_spr=RMSE_UScrude_no_spr, RMSE_USInventory=RMSE_USInventory, RMSE_USInventory_no_spr=RMSE_USInventory_no_spr,
                            RMSE_OECDcrude=RMSE_OECDcrude, RMSE_OECDcrude_no_spr=RMSE_OECDcrude_no_spr, RMSE_OECDInventory=RMSE_OECDInventory, RMSE_OECDInventory_no_spr=RMSE_OECDInventory_no_spr,
-                           rdates=rdates[0])
+                           EIA_release_date=EIA_release_date, EIA_release_time=EIA_release_time, EIA_time_left=EIA_time_left,
+                           OECD_release_date=OECD_release_date, OECD_release_time=OECD_release_time, OECD_time_left=OECD_time_left,
+                           products_change_magnitude=products_change_magnitude, crude_change_magnitude=crude_change_magnitude,
+                           products_change=Water_data1_products["Products Change"][0], crude_change=Water_data1_crude["Crude Change"][0])
 
 
 ##########################################################################################################################################
@@ -215,7 +308,7 @@ def create_plot1():
             showline=False,
             zeroline=False,
             showticklabels=True,
-            title='Billion Barrels (log)',
+            title='Billion Barrels (seasonally adjusted)',
         ),
 
     )
@@ -957,6 +1050,7 @@ def create_plot10():
         legend=dict(orientation="h"),
         #title='Week over Week Inventory Change',
         #font=dict(family='Helvetica', size=12),
+        height=350,
         autosize=True,
         margin=go.layout.Margin(
             l=50,
@@ -1021,6 +1115,7 @@ def create_plot11():
         legend=dict(orientation="h"),
         #title='Week over Week Inventory Change',
         #font=dict(family='Helvetica', size=12),
+        height=350,
         autosize=True,
         margin=go.layout.Margin(
             l=50,

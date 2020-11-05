@@ -1,121 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
- <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 
- {% block content %}  
- {% endblock content %}
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css')}}"> 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        {% block content %} {% endblock content %}
+        <!-- Bootstrap core CSS -->
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='css/bootstrap.min.css')}}"
+        />
+        <link
+            href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+            rel="stylesheet"
+        />
+    </head>
 
-</head>
+    <body>
+        <!-- Plotly.js -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- D3.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 
-<body>
+        <!-- Matjax -->
+        <!-- <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
+            async
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+            async
+        ></script>-->
 
+        <!-- Navigation -->
+        <!-- nav-item active equals light-->
+        <nav
+            class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark static-top nav-item active"
+        >
+            <ul class="navbar-nav">
+                <!-- ml-auto-->
+                <a class="navbar-brand" href="/"> SITE NAME</a>
+                <div class="container">
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-    <!-- Plotly.js -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <!-- D3.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                    <!-- Collapsable part-->
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/oil"
+                                >Spot price
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-    <!-- Matjax -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rigcount"
+                                >Rig count
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Term Structure
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/yieldcurve">Yield Curve</a>
+                                <a class="dropdown-item" href="/industrialproduction">The Big 4</a>
+                                <a class="dropdown-item" href="/fedex">FedEx</a>
+                                <a class="dropdown-item" href="/semis">Semiconductors</a>
+                            </div>
+                        </li>
 
-    <!-- Navigation --> <!-- nav-item active equals light-->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark static-top nav-item active">
-  <ul class="navbar-nav"> <!-- ml-auto--> 
-    <a class="navbar-brand" href="/">  SITE NAME</a>
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-     
-     <!-- Collapsable part-->
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Spot Price
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/oil">Oil</a>
-          <a class="dropdown-item" href="/metals">Metals</a>
-            <a class="dropdown-item" href="/agriculture">Agriculture/Grains</a>
-          <a class="dropdown-item" href="/livestock">Livestock & Meat </a>
-        </div>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Production
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/treasury">Treasury</a>
+                                <a class="dropdown-item" href="/treasury">Corporate Debt</a>
+                                <a class="dropdown-item" href="/treasury">Mortgage Related</a>
+                                <a class="dropdown-item" href="/cycle">Municipal</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Consumption
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/gas">Gas</a>
+                                <a class="dropdown-item" href="/coal">Coal</a>
+                                <a class="dropdown-item" href="/electricity">Electricity</a>
+                            </div>
+                        </li>
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Term Structure
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/yieldcurve">Yield Curve</a>
-            <a class="dropdown-item" href="/industrialproduction">The Big 4</a>
-            <a class="dropdown-item" href="/fedex">FedEx</a>
-                <a class="dropdown-item" href="/semis">Semiconductors</a>
-        </div>
-      </li>
-
-               <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Production
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/treasury">Treasury</a>
-          <a class="dropdown-item" href="/treasury">Corporate Debt</a>
-          <a class="dropdown-item" href="/treasury">Mortgage Related</a>
-           <a class="dropdown-item" href="/cycle">Municipal</a>
-        </div>
-      </li>
-               <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Consumption
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/gas">Gas</a>
-          <a class="dropdown-item" href="/coal">Coal</a>
-          <a class="dropdown-item" href="/electricity">Electricity</a>
-        </div>
-      </li>
-                 <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Rig Count
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/fiat">Fiat Currencies </a>
-          <a class="dropdown-item" href="/crypto">Cryptocurrencies</a>
-
-        </div>
-      </li>
-                        
-    
-  
-
-         <!-- <li class="nav-item">
+                        <!-- <li class="nav-item">
             <a class="nav-link" href="/inflation">Inflation
               <span class="sr-only">(current)</span>
             </a>
           </li>  -->
+                    </div>
+                </div>
+            </ul>
 
-        
-      </div>
-    </div>
-    </ul>
-
-    <ul class="nav navbar-nav ml-auto">
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-
-
-     <!--   <li class="nav-item">
+            <ul class="nav navbar-nav ml-auto">
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <!--   <li class="nav-item">
         <a class="nav-link" href="#"><span class="fas fa-user"></span> Sign Up</a>
       </li>
       <li class="nav-item">
@@ -123,43 +148,42 @@
       </li>
     </ul>  -->
 
- <form class="form-inline my-2 my-lg-0 ml-auto">
-      <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-light my-2 my-sm-0 w-25" type="submit">Search</button>
-    </form>
-    </div>
-</ul> 
+                    <form class="form-inline my-2 my-lg-0 ml-auto">
+                        <input
+                            class="form-control mr-sm-2 w-50"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                        />
+                        <button class="btn btn-outline-light my-2 my-sm-0 w-25" type="submit">
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </ul>
+        </nav>
 
+        <footer class="fixed-bottom">
+            <div class="row text-center">
+                <div class="col-md-4">ir@companyemail.com</div>
+                <div class="col-md-4">Sweden, Gothenburg 10022</div>
+                <div class="col-md-4">(070) 335-9891</div>
+            </div>
+        </footer>
 
-  </nav>
+        {% block content1 %} {% endblock content1 %}
 
+        <!-- Bootstrap core JavaScript -->
+        <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+        <script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
 
- <footer class="fixed-bottom">
-    <div class="row text-center">
-<div class="col-md-4"> ir@companyemail.com </div>
-<div class="col-md-4"> Sweden, Gothenburg 10022 </div>
-<div class="col-md-4">(070) 335-9891 </div>
-</div>
-</footer> 
-
-
-{% block content1 %} 
-  {% endblock content1 %}
-
-  <!-- Bootstrap core JavaScript -->
- <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
-<script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="{{ url_for('static', filename='main.js')}}"></script>
- 
-
-</body>
-
+        <script src="{{ url_for('static', filename='main.js')}}"></script>
+    </body>
 </html>

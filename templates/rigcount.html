@@ -1,0 +1,209 @@
+{% extends "layout.html" %} {% block content %}
+<title>Petroleum Inventory Level</title>
+{% endblock content %} {% block content1 %}
+<!-- Page Content -->
+<div class="entry-meta-old">Rotary Rig Count</div>
+
+<div class="container-fluid" style="">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 style="margin-top: 80px; text-align: center">Forecasting Rotary Rig Count</h2>
+            <h3 style="text-align: center">using WTI spot prices</h3>
+        </div>
+
+        <div class="col-md-12">
+            <button
+                class="btn btn-dark float-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style="margin-top: -50px"
+            >
+                LEARN MORE
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    Below, I propose a forecasting model of the crude oil spot price using the
+                    petroleum inventory level. The inventory data used in the model is updated each
+                    wednesday 10:30 AM EST, resulting in a new forecasted value with each report.
+                    Applying the forecasting model between January 2010 to date, I find that the
+                    model delivers persistent long-term performance. The model is useful for those
+                    who are interested in forecasting future oil prices or for those who wish to
+                    understand and interpret historical price fluctuations.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div>
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-8 col-md-4 col-md-4">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div style="margin-top: 25px">
+                        <div>
+                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph" style="">
+                                <script>
+                                    var graphs = {{plot | safe}};
+                                    Plotly.plot('bargraph',graphs,{});
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-md-4 col-md-4">
+                <div class="h-100 border rounded shadow" style="">
+                    <div>{% for i in tablerigcount %} {{ i |safe }} {% endfor %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid">
+    <div>
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 25px; margin-bottom: 25px">
+            <div class="col-md-2 col-md-2 col-md-2">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                        </p>
+                    </div>
+
+
+                    <p style="margin-top: 20px; padding-left: 20px;">Correlation</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="h-100 border rounded shadow" style="">
+                   
+                    <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                        </p>
+                    </div>
+
+
+                    <p style="margin-top: 20px; padding-left: 20px">R-Squared</p>
+                </div>
+            </div>
+              <div class="col-md-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">
+                    
+                      <div name="USInventory">
+                        <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                        </p>
+                    </div>
+                    
+                    </p>
+                    <p style="margin-top: 20px; padding-left: 20px">RMSE</p>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">
+                    
+                    
+                     <div name="US">
+                        <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                    <a href="https://www.eia.gov/petroleum/supply/weekly/"> Petroleum Status Report</a>
+                        </p>
+                    </div>
+                    
+                    </p>
+                    <p style="margin-top: 20px; padding-left: 20px">Data Source</p>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div name="US" class="h-100 border rounded shadow" style="">
+                  <p style="margin-top: 20px; padding-left: 20px">{{ EIA_release_time}}: {{ EIA_release_date}}  </p> 
+                    <p style="margin-top: 20px; padding-left: 20px">Next Release Date</p>
+                </div>
+            </div>
+
+            <div name="US" class="col-md-2">
+                <div class="h-100 border rounded shadow" style="">
+                    <p style="margin-top: 20px; padding-left: 20px">{{ EIA_time_left}}   </p> 
+                    <p style="margin-top: 20px; padding-left: 20px">Time to Release </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <div>
+        <!-- Made myself -->
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-6 col-md-6 col-md-6">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div style="margin-top: 25px">
+                        <div>
+                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph1" style="">
+                                <script>
+                                    var graphs1 = {{plot1 | safe}};
+                                    Plotly.plot('bargraph1',graphs1,{});
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="col-md-6 col-md-6 col-md-6">
+                <div
+                    class="h-100 border rounded shadow"
+                    style="padding-left: 10px; padding-right: 10px; margin-bottom: 10px"
+                >
+                    <div style="margin-top: 25px">
+                        <div>
+                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <td style="padding-top: 3px"></td>
+
+                            <div class="img" id="bargraph2" style="">
+                                <script>
+                                    var graphs2 = {{plot2 | safe}};
+                                    Plotly.plot('bargraph2',graphs2,{});
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content1 %}

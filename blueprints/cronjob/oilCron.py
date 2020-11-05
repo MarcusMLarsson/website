@@ -20,6 +20,9 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
 import numpy as np
 import os
+from dateutil import parser
+from datetime import timezone
+import pytz
 sns.set()
 
 
@@ -28,7 +31,7 @@ def main():
     start_time = time.time()
 
     # Connect to Local MONGODB
-    #store = Arctic('mongodb+srv://MarcusMLarsson:Britney1234@mongodb-0ydzb.azure.mongodb.net/test?retryWrites=true&w=majority')
+    # store = Arctic('mongodb+srv://MarcusMLarsson:Britney1234@mongodb-0ydzb.azure.mongodb.net/test?retryWrites=true&w=majority')
     store = Arctic('mongodb://MarcusMLarsson:Britney1234@mongodb-shard-00-00-0ydzb.azure.mongodb.net:27017,mongodb-shard-00-01-0ydzb.azure.mongodb.net:27017,mongodb-shard-00-02-0ydzb.azure.mongodb.net:27017/test?ssl=true&replicaSet=MongoDB-shard-0&authSource=admin&retryWrites=true&w=majority')
 
     # Create the library - defaults to VersionStore
@@ -402,21 +405,26 @@ def main():
     Water_data1_crude = Water_data1.iloc[0:1, 0:6]
     Water_data1_products = Water_data1.iloc[0:1, 6:]
 
-    url = 'https://www.eia.gov/petroleum/supply/weekly/'
-    req = Request(url, headers={
-        'User-Agent': 'Mozilla/5.0'
-    })
 
-    webpage = urlopen(req).read()
+    crude_change_magnitude = []
 
-    page_soup = soup(webpage, "html.parser")
+    if (Water_data1_crude["Crude Change"][0] > 0):
+        crude_change_magnitude = 'increased'
+    if (Water_data1_crude["Crude Change"][0] < 0):
+        crude_change_magnitude = 'fell'
+    if (Water_data1_crude["Crude Change"][0] == 0):
+        crude_change_magnitude = 'changed'
 
-    rdates = page_soup.find_all("span", class_="date")
-    rdates = re.sub('<[^>]*>', '', str(rdates))
-    rdates = rdates.replace("[", "")
-    rdates = rdates.replace("]", "")
-    rdates = rdates.replace(" ", "")
-    rdates = rdates.split(',', 2)[2:3]
+        
+    products_change_magnitude = []
+
+    if (Water_data1_products["Products Change"][0] > 0):
+        products_change_magnitude = 'increased'
+    if (Water_data1_products["Products Change"][0] < 0):
+        products_change_magnitude = 'fell'
+    if (Water_data1_products["Products Change"][0] == 0):
+        products_change_magnitude = 'changed'
+
 
     # Store the data in the library
     library.write('dfUS', dfUS)
@@ -427,7 +435,10 @@ def main():
     library.write('Water_data1_products', Water_data1_products)
     library.write('statsUS', statsUS)
     library.write('statsOECD', statsOECD)
-    library.write('rdates', rdates)
+    library.write('statsOECD', statsOECD)
+    library.write('crude_change_magnitude', crude_change_magnitude)
+    library.write('products_change_magnitude', products_change_magnitude)
+
 
     print("--- %s seconds : oilAPI" % (time.time() - start_time))
 
