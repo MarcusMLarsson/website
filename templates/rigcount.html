@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2 style="margin-top: 80px; text-align: center">Forecasting Rotary Rig Count</h2>
-            <h3 style="text-align: center">using WTI spot prices</h3>
+            <h3 style="text-align: center">using the WTI spot prices</h3>
         </div>
 
         <div class="col-md-12">
@@ -24,15 +24,68 @@
                 LEARN MORE
             </button>
             <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    Below, I propose a forecasting model of the crude oil spot price using the
-                    petroleum inventory level. The inventory data used in the model is updated each
-                    wednesday 10:30 AM EST, resulting in a new forecasted value with each report.
-                    Applying the forecasting model between January 2010 to date, I find that the
-                    model delivers persistent long-term performance. The model is useful for those
-                    who are interested in forecasting future oil prices or for those who wish to
-                    understand and interpret historical price fluctuations.
-                </div>
+                 <div class="card card-body">
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="false">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+       <h5> Summary </h5>
+    <p>  Below, I propose a 12 weeks ahead forecasting model of the the number of drilling 
+                rigs actively developing oil in the United States by using the West Texas Intermediate (WTI) crude oil spot price. 
+                The 12 weeks ahead forecast is illustrated as a pink shaded vertical area in the diagram.
+                The data used in the model is updated each Friday at noon central time. </p>
+    </div>
+    <div class="carousel-item">
+
+    <h5> Data </h5>
+<p> The <a href="https://rigcount.bakerhughes.com/na-rig-count">Baker Hughes North American Rotary Rig Count </a> is a weekly census of the number of drilling rigs actively exploring for or 
+developing oil in the United States. A rotary rig rotates the drill pipe from surface to drill a new well (or sidetracking an 
+existing one) to explore for, develop and produce oil. The Baker Hughes Rotary Rig count includes only those rigs that are 
+significant consumers of oilfield services and supplies and does not include cable tool rigs, very small truck mounted rigs or 
+rigs that can operate without a permit. Non-rotary rigs may be included in the count based on how they are employed. 
+For example, coiled tubing and workover rigs employed in drilling new wells are included in the count. dTo be counted as
+ active, a rig must be on location and be drilling or 'turning to the right'. A rig is considered active from the moment 
+ the well is "spudded" until it reaches target depth. Rigs that are in transit from one location to another, rigging up or 
+ being used in non-drilling activities such as workovers, completions or production testing, are not counted as active. 
+  </p>
+
+
+    </div>
+<div class="carousel-item">
+
+    <h5>Theory </h5>
+<p> Oil drilling rigs are used to identify geologic reservoirs and to create wells that allow the extraction of oil from those
+ reservoirs. In the past, the number of oil-oriented drilling rigs was conclusively indicative of oil production growth. However, 
+ technological advances have resulted in operators finding ways of increasing production without adding more rigs. The relationship
+  between oil prices and the rig count has however remained intact. Changes in oil prices leads changes in the rig count by up to
+   one quarter. There are several reasons that explain the presence and relevance of lags in rig drilling. During periods of lower
+    oil prices, oil companies initially revisit their resources that they reckon un-economic. There are also rig contracts and rigs
+     rented for a number of years, which stand in the way of suddenly terminating drilling activity. The lags are also present 
+     during higher oil prices as it takes time to acquire new leases/concessions, carry out seismic surveys, recruit workers, etc.
+</p>
+
+
+    </div>
+
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+
+  </div>
             </div>
         </div>
     </div>
@@ -50,7 +103,8 @@
                 >
                     <div style="margin-top: 25px">
                         <div>
-                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <h4>Predicted and Actual Rig Count</h4>
+                             <i> 12 Weeks Out-of-Sample Forecast </i>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph" style="">
@@ -88,6 +142,7 @@
                 >
                     <div name="USInventory">
                         <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                         {{ corr }}
                         </p>
                     </div>
 
@@ -100,6 +155,7 @@
                    
                     <div name="USInventory">
                         <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                         {{ (corr **2) |round(3)}}
                         </p>
                     </div>
 
@@ -113,6 +169,7 @@
                     
                       <div name="USInventory">
                         <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
+                         {{ (rmse) |round(3)}}
                         </p>
                     </div>
                     
@@ -128,7 +185,7 @@
                     
                      <div name="US">
                         <p style="margin-top: 20px; padding-left: 20px; font-weight: 500; font-size: 1.1rem;">
-                    <a href="https://www.eia.gov/petroleum/supply/weekly/"> Petroleum Status Report</a>
+                    <a href="https://rigcount.bakerhughes.com/na-rig-count"> Baker Hughes Rig Count</a>
                         </p>
                     </div>
                     
@@ -139,14 +196,14 @@
 
             <div class="col-md-2">
                 <div name="US" class="h-100 border rounded shadow" style="">
-                  <p style="margin-top: 20px; padding-left: 20px">{{ EIA_release_time}}: {{ EIA_release_date}}  </p> 
+                  <p style="margin-top: 20px; padding-left: 20px">{{ timeNextRelease}} UTC: {{ dateNextRelease }}  </p> 
                     <p style="margin-top: 20px; padding-left: 20px">Next Release Date</p>
                 </div>
             </div>
 
             <div name="US" class="col-md-2">
                 <div class="h-100 border rounded shadow" style="">
-                    <p style="margin-top: 20px; padding-left: 20px">{{ EIA_time_left}}   </p> 
+                    <p style="margin-top: 20px; padding-left: 20px">{{ time_left}}   </p> 
                     <p style="margin-top: 20px; padding-left: 20px">Time to Release </p>
                 </div>
             </div>
@@ -168,7 +225,7 @@
                 >
                     <div style="margin-top: 25px">
                         <div>
-                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <h4> WTI Spot, Oil Rig Count & Crude Production</h4>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph1" style="">
@@ -189,7 +246,7 @@
                 >
                     <div style="margin-top: 25px">
                         <div>
-                            <h4>PREDICTED AND ACTUAL RIG COUNT</h4>
+                            <h4>Number of Rotary Rigs Drilling for Oil</h4>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph2" style="">

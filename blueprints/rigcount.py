@@ -10,9 +10,51 @@ import numpy as np
 import plotly.io as pio
 pio.templates.default = 'plotly_white'
 import time
+import requests
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup as soup
+from dateutil import parser
+from datetime import timezone
+from datetime import datetime
+import pytz
+import re
 
 
 start_time = time.time()
+
+url = 'https://uk.investing.com/economic-calendar/baker-hughes-u.s.-rig-count-1652'
+req = Request(url, headers={
+    'User-Agent': 'Mozilla/5.0'
+})
+
+webpage = urlopen(req).read()
+
+page_soup = soup(webpage, "html.parser")
+
+rdates = page_soup.find_all("td", class_="left")
+
+utc = pytz.timezone('utc')
+
+dateNextRelease = rdates[0]
+dateNextRelease = re.sub('<[^>]*>', '', str(dateNextRelease))
+timeNextRelease = rdates[1]
+timeNextRelease = re.sub('<[^>]*>', '', str(timeNextRelease))
+
+dateTimeNextRelease = parser.parse(dateNextRelease + timeNextRelease)
+dateTimeNextRelease = dateTimeNextRelease.replace(tzinfo=utc)
+
+time_now = datetime.utcnow()
+time_now = time_now.replace(tzinfo=utc)
+
+
+time_left = dateTimeNextRelease - time_now
+daysLeft, secondsLeft = time_left.days, time_left.seconds
+hoursLeft = secondsLeft // 3600
+minutesLeft = (secondsLeft % 3600) // 60
+secondsLeft = secondsLeft % 60
+
+time_left = str(daysLeft) + " days, " + str(hoursLeft) + \
+    " hours, " + str(minutesLeft) + " minutes"
 
 #store = Arctic('mongodb+srv://MarcusMLarsson:Britney1234@mongodb-0ydzb.azure.mongodb.net/test?retryWrites=true&w=majority')
 store = Arctic('mongodb://MarcusMLarsson:Britney1234@mongodb-shard-00-00-0ydzb.azure.mongodb.net:27017,mongodb-shard-00-01-0ydzb.azure.mongodb.net:27017,mongodb-shard-00-02-0ydzb.azure.mongodb.net:27017/test?ssl=true&replicaSet=MongoDB-shard-0&authSource=admin&retryWrites=true&w=majority')
@@ -60,11 +102,15 @@ def function():
     table.reset_index(inplace=True)
     table = table[["Date", "Rig count", "Forecast", "Error"]].tail(21)
 
-    tablerigcount = [table.to_html(
+    tablerigcount = [table.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
+    corr = round(df1["Forecast"].corr(df1["OilRigs"]),3)
+    rmse= ((np.exp(df1["Forecast"]).values - np.exp(df1["OilRigs"]).values) **2).mean() ** 0.5
 
-    return render_template('rigcount.html', plot=plot, plot1=plot1, plot2=plot2, tablerigcount=tablerigcount)
+
+    return render_template('rigcount.html', plot=plot, plot1=plot1, plot2=plot2, tablerigcount=tablerigcount, corr=corr, rmse=rmse,
+    dateNextRelease=dateNextRelease, timeNextRelease=timeNextRelease, time_left=time_left)
 
 def create_plot():
     trace1 = go.Scatter(
@@ -102,7 +148,7 @@ def create_plot():
         )
     trace4 = go.Scatter(
             x=df.index,
-            y=np.exp(df["OilRigs"]),
+            y=np.exp(df["OilRigs"].iloc[0:-11]),
             name='Rig Count',
             yaxis='y1',
             line=dict(color='#F06A6A'),
@@ -164,7 +210,7 @@ def create_plot():
                         y0=0,
                         x1=str(df1.iloc[-1:, 0].index.values[0]),
                         y1=1,
-                        fillcolor="gray",
+                        fillcolor="rgba(255, 65, 54, 0.6)",
                         opacity=0.15,
                         layer="above",
                         line_width=0,
@@ -190,14 +236,14 @@ def create_plot1():
     )
     trace2 = go.Scatter(
             x=df.index,
-            y=df['OilRigs'],
+            y=df['OilRigs'].iloc[0:-11],
             name='Rig Count',
             yaxis='y2',
             line=dict(color='#33CFA5'),
         )
     trace3 = go.Scatter(
             x=df.index,
-            y=df["CL1"],
+            y=df["CL1"].iloc[0:-11],
             name='WTI',
             yaxis='y3',
             line=dict(color='#F06A6A'),
@@ -212,7 +258,7 @@ def create_plot1():
         )
     trace5 = go.Scatter(
             x=df.index,
-            y=df['ShiftOilRigs'],
+            y=df['ShiftOilRigs'].iloc[0:-23],
             name='Rig Count',
             yaxis='y2',
             line=dict(color='#33CFA5'),
@@ -220,7 +266,7 @@ def create_plot1():
         )
     trace6 = go.Scatter(
             x=df.index,
-            y=df["CL1"],
+            y=df["CL1"].iloc[0:-11],
             name='WTI',
             yaxis='y3',
             line=dict(color='#F06A6A'),
@@ -649,7 +695,7 @@ def create_plot2():
                 title='Dollars per Barrel',
                 # type='log',
                 tickfont=dict(
-                    color='green'
+                    color='#17becf'
                 ),
                 overlaying='y',
                 side='right',

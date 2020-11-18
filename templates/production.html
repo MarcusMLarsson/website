@@ -1,0 +1,153 @@
+{% extends "layout.html" %} {% block content %}
+<title>Petroleum Inventory Level</title>
+{% endblock content %} {% block content1 %}
+<!-- Page Content -->
+<div class="entry-meta-old">Production</div>
+
+<div class="container-fluid" style="">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 style="margin-top: 80px; text-align: center">World Crude Production</h2>
+            <h3 style="text-align: center">using JODI data</h3>
+        </div>
+
+        <div class="col-md-12">
+            <button
+                class="btn btn-dark float-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style="margin-top: -50px"
+            >
+                LEARN MORE
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="false">
+                        <ol class="carousel-indicators">
+                            <li
+                                data-target="#carouselExampleIndicators"
+                                data-slide-to="0"
+                                class="active"
+                            ></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <h5>Summary</h5>
+                                <p>
+                                    Below, I propose a 12 weeks ahead forecasting model of the the
+                                    number of drilling rigs actively developing oil in the United
+                                    States by using the West Texas Intermediate (WTI) crude oil spot
+                                    price. The 12 weeks ahead forecast is illustrated as a pink
+                                    shaded vertical area in the diagram. The data used in the model
+                                    is updated each Friday at noon central time.
+                                </p>
+                            </div>
+                            <div class="carousel-item">
+                                <h5>Data</h5>
+                                <p>
+                                    The
+                                    <a href="https://rigcount.bakerhughes.com/na-rig-count"
+                                        >Baker Hughes North American Rotary Rig Count
+                                    </a>
+                                    is a weekly census of the number of drilling rigs actively
+                                    exploring for or developing oil in the United States. A rotary
+                                    rig rotates the drill pipe from surface to drill a new well (or
+                                    sidetracking an existing one) to explore for, develop and
+                                    produce oil. The Baker Hughes Rotary Rig count includes only
+                                    those rigs that are significant consumers of oilfield services
+                                    and supplies and does not include cable tool rigs, very small
+                                    truck mounted rigs or rigs that can operate without a permit.
+                                    Non-rotary rigs may be included in the count based on how they
+                                    are employed. For example, coiled tubing and workover rigs
+                                    employed in drilling new wells are included in the count. dTo be
+                                    counted as active, a rig must be on location and be drilling or
+                                    'turning to the right'. A rig is considered active from the
+                                    moment the well is "spudded" until it reaches target depth. Rigs
+                                    that are in transit from one location to another, rigging up or
+                                    being used in non-drilling activities such as workovers,
+                                    completions or production testing, are not counted as active.
+                                </p>
+                            </div>
+                            <div class="carousel-item">
+                                <h5>Theory</h5>
+                                <p>
+                                    Oil drilling rigs are used to identify geologic reservoirs and
+                                    to create wells that allow the extraction of oil from those
+                                    reservoirs. In the past, the number of oil-oriented drilling
+                                    rigs was conclusively indicative of oil production growth.
+                                    However, technological advances have resulted in operators
+                                    finding ways of increasing production without adding more rigs.
+                                    The relationship between oil prices and the rig count has
+                                    however remained intact. Changes in oil prices leads changes in
+                                    the rig count by up to one quarter. There are several reasons
+                                    that explain the presence and relevance of lags in rig drilling.
+                                    During periods of lower oil prices, oil companies initially
+                                    revisit their resources that they reckon un-economic. There are
+                                    also rig contracts and rigs rented for a number of years, which
+                                    stand in the way of suddenly terminating drilling activity. The
+                                    lags are also present during higher oil prices as it takes time
+                                    to acquire new leases/concessions, carry out seismic surveys,
+                                    recruit workers, etc.
+                                </p>
+                            </div>
+                        </div>
+                        <a
+                            class="carousel-control-prev"
+                            href="#carouselExampleIndicators"
+                            role="button"
+                            data-slide="prev"
+                        >
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a
+                            class="carousel-control-next"
+                            href="#carouselExampleIndicators"
+                            role="button"
+                            data-slide="next"
+                        >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div>
+        <div class="img" id="bargraph1" style="">
+            <script>
+                var graphs1 = {{plot1 | safe}};
+                Plotly.plot('bargraph1',graphs1,{});
+            </script>
+        </div>
+
+        <h1>Hello</h1>
+
+        <div class="img" id="bargraph2" style="">
+            <script>
+                var graphs2 = {{plot2 | safe}};
+                Plotly.plot('bargraph2',graphs2,{});
+            </script>
+        </div>
+
+        <h1>Hello</h1>
+
+        <div class="img" id="bargraph3" style="">
+            <script>
+                var graphs3 = {{plot3 | safe}};
+                Plotly.plot('bargraph3',graphs3,{});
+            </script>
+        </div>
+    </div>
+</div>
+
+{% endblock content1 %}

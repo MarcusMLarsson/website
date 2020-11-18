@@ -1,52 +1,13 @@
-//$( document ).ready(function() {
-//$("#2").hide();
-//});
-//import VideoBg from './node_modules/vue-videobg/src/VideoBackground.vue'
-//import VideoBg from 'vue-videobg'
-//Vue.component('video-bg', VideoBg)
-//import Vue from 'vue';
-// @ts-ignore
-//import VideoBackground from 'C:/Users/mla/Dev/cfehome/Flask/static/node_modules/vue-responsive-video-background-player/src/VideoBackground.vue'
-//const VideoBackground = require('./vue-responsive-video-background-player');
-//import VideoBackground from './node_modules/vue-responsive-video-background-player/src/index'
-//const VideoBackground = require('./node_modules/vue-responsive-video-background-player/src/index');
-
-//./components/VideoPlayer
-
-//Vue.component('video-background', VideoBackground);
-
-//new Vue({
-//   el: '#app',
-//  vuetify: new Vuetify(),
-// delimiters: ['[[', ']]'],
-//mounted: function() {
-// this.$refs.videoRef.src = "http://127.0.0.1:5000/static/roadster-loop-imperial.mp4";
-//this.$refs.videoRef.play();
-// },
-//data: () => ({
-//items: [
-// { title: 'Click Me', link: '<a class="dropdown-item" href="/energy">Energy</a>' },
-// { title: 'Click Me', link: '<a class="dropdown-item" href="/energy">Energy</a>'},
-// { title: 'Click Me', link: '<a class="dropdown-item" href="/energy">Energy</a>' },
-// { title: 'Click Me 2', link: '<a class="dropdown-item" href="/energy">Energy</a>' },
-//],
-//drawer: false,
-
-//}),
-//});
-
-//var two = new Vue({
-//el: '#app1',
-//components: { VideoBg }
-//});
-
-// set html style to visible
-// wait for whole document to load up before we try to run any javascript
 $(document).ready(function () {
     document.getElementsByTagName("html")[0].style.visibility = "visible";
 });
 
-// 
+window.onload = check;
+function check() {
+    document.getElementById("r01").checked = true;
+}
+
+
 $("div[name=USCrude]").hide();
 $("div[name=OECDInventory]").hide();
 $("div[name=OECDCrude]").hide();

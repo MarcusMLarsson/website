@@ -18,8 +18,136 @@
     LEARN MORE
   </button>
 <div class="collapse" id="collapseExample">
+<br>
   <div class="card card-body">
-    Below, I propose a forecasting model of the crude oil spot price using the petroleum inventory level. The inventory data used in the model is updated each wednesday 10:30 AM EST, resulting in a new forecasted value with each report. Applying the forecasting model between January 2010 to date, I find that the model delivers persistent long-term performance. The model is useful for those who are interested in forecasting future oil prices or for those who wish to understand and interpret historical price fluctuations.
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="false">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+       <h5> Summary </h5>
+    <p> Below, I propose a <b>forecasting model</b> of the crude oil spot price using the <b>petroleum inventory level</b>. 
+    The inventory data used in the model is updated each wednesday 10:30 AM EST, resulting in a new forecasted value with each report.
+     Applying the forecasting model between January 2010 to date, I find that the model delivers persistent long-term performance.
+      The model is useful for those who are interested in forecasting future oil prices or for those who wish to understand and 
+      interpret historical price fluctuations. </p>
+    </div>
+    <div class="carousel-item">
+
+    <h5> Data </h5>
+  <p> A database covering petroleum inventory is a prerequisite for this work. The 
+  <a href="https://www.iea.org/"> International Energy Agency (IEA) </a>
+and the U.S. <a href="https://www.eia.gov/"> Energy Information Administration (EIA) </a> provides the most comprehensive data in terms of quality,
+nations covered, consistency of reporting and detailed used. 
+
+The <a href="https://www.eia.gov/petroleum/supply/weekly/"> Weekly Petroleum Status Report </a> is published on a weekly basis, and covers
+U.S. petroleum inventories by Petroleum Administration for Defense District (PAD District). The <a href="https://www.eia.gov/totalenergy/data/monthly/"> Monthly Energy Review </a> is published on
+a monthly basis (lagged behind) and covers OECD petroleum inventories.
+
+  </p>
+
+<p> The <b>Petroleum inventory level</b> represent the amount of inventory of crude oil and petroleum products held in
+inventory for future use. Inventories are accounted for on a national territory basis, within a country’s geographical
+region and irrespective of ownership. Granted that the inventories are held on the national territory, it does not
+matter whether the inventories are held onshore, offshore, at refineries or in pipelines. The petroleum inventory consists of <b>crude oil</b>, which represent the liquid that is extracted from the geological
+formation, and <b>petroleum products</b>, which are produced from the processing of crude oil. Petroleum inventories
+can further be divided into <b>commercial inventories</b>, which represent petroleum inventories held for commercial
+purposes by U.S. firms, and <b>strategic inventories</b>, which represent petroleum inventories maintained by the Federal
+Government.</p>
+
+
+    </div>
+<div class="carousel-item">
+
+    <h5>Theory </h5>
+  <p> 
+Intuitively, there should be a <b>negative relationship between the petroleum inventory level and the oil price</b>. The
+rationale is that a petroleum inventory change can be interpreted as the result of the imbalance between supply and
+demand, and should therefore affect the spot price in a negative manner. </p>
+
+<center>\[\text{Inventory Change} = \underbrace{\text{Domestic Production} +  \text{Imports}}_{Supply} -  \underbrace{\text{Domestic Consumption} -  \text{Exports}}_{Demand}\]
+</center>
+
+<p>
+The relationship between the petroleum inventory level and the oil price is, however, not directly obvious, as the
+petroleum inventory level is affected by seasonal movements that tend to mask the connection.
+The de-seasonalized inventory level is an indicator that normalizes the
+petroleum inventory level for seasonal variation. The central concept is that if current inventories deviate from their normal level, according to inventory trend and seasonal
+swings, the market is in disequilibrium and prices should react accordingly.
+</p> 
+
+<p>A minimum operating level of petroleum inventory is essential to keep the North American supply system
+operating; pipeline systems need a cushion level of inventory to keep the system running, road tankers and railcars
+need fuel to link the production sites, and terminals and refineries need a base level to operate. Due to the economy
+requiring a minimum operating level of petroleum inventories, the <b>relationship between the inventory level and the
+spot price is intrinsically non-linear (see scatter plot below)</b>. That is, if the inventory level were to approach its minimum
+operating level, prices should in theory react in a non-linear fashion to compensate for the risk associated with
+low inventory levels. Petroleum inventories can also be viewed as being limited due to infrastructure constraints. Once the inventory
+surplus breaches logistical and spare storage capacity, oil prices should converge to marginal cost and force producers to stop producing. U.S. shale wells can have a variable cost below 15 dollars a barrel, resulting in that their owners
+will keep on producing even if spot prices are below the producers average cost.</p>
+
+
+    </div>
+
+
+    <div class="carousel-item">
+<h5> Model </h5>
+
+<p> The variables used are the following: </p>
+<span class="variable-list"> 
+\[\begin{cases} & IN_{t}\space\space\space\space\space\space \text{The observed petroleum inventory, measured in millions of barrels level}\\ & IN_{t}\space\space\space\space\space\space \text{The normal inventory level, measured in millions of barrels}
+\\ & DIN_{t}\space\space\space\text{The deseasonalized inventory level, measured in millions of barrels}
+\\ & D_{k}\space\space\space\space\space\space\space\space \text{Weekly dummy variables measuring seasonality}
+\\ & WTI_{t}\space\space\space \text{The average weekly WTI spot price, measured in dollars per barrel}\end{cases}\]
+</span>
+
+<p> The observed inventories are de-seasonalized through regression (1) and (2). </p>
+      
+<center>
+
+\[IN_{t} = \sum_{k=1}^{52}\beta_{k}D_{k} + \epsilon_{t} \tag{1}\]
+
+\[\widehat{IN}_{t} = \sum_{k=1}^{52}\beta_{k}D_{k} \tag{2}\]
+
+</center>
+<br>
+<p> Once the dummy parameters are estimated, one can extract the seasonal influence of the inventory level, where the
+resulting residuals will represent the deseasonalized inventory level. </p>
+
+<center>
+
+\[{DIN}_{t} = IN_{t} - \widehat{IN}_{t} = \epsilon_{t} \tag{3}\]
+
+</center>
+<br>
+<p> Equation 4, represents the forecasting model. The WTI spot price is modeled as determined by the deasonalized petroleum inventory level. A squared variable is
+used to capture the non-linear dynamic between oil prices and petroleum inventories. </p>
+<center>
+
+\[{WTI}_{t} = \alpha + \beta_{1}DIN_{t-1} + \beta_{2}DIN^2_{t-1} + \epsilon_{t} \tag{4} \]
+
+</center>
+<br>
+
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+
   </div>
 </div>
 </div>
@@ -37,23 +165,27 @@
         
     <div class="col-md-4">
  
-                
+ 
                 <div class="form-check form-check-inline" style="margin-left: 50px; margin-top: 20px">
+         
                     <input
                         class="form-check-input"
                         type="radio"
                         name="FirstSelector"
                         value="btnUS"
+                        autocomplete="off"
                         checked
                     />
                     <label class="form-check-label" for="FirstSelector">United States</label>
                 </div>
+                       
 
                 <div class="form-check form-check-inline">
                     <input
                         class="form-check-input"
                         type="radio"
                         name="FirstSelector"
+                        autocomplete="off"
                         value="btnOECD"
                     />
                     <label class="form-check-label" for="FirstSelector">OECD</label>
@@ -66,6 +198,7 @@
                         class="form-check-input"
                         type="radio"
                         name="SecondSelector"
+                        autocomplete="off"
                         value="btnInventory"
                         checked
                     />
@@ -77,6 +210,7 @@
                         class="form-check-input"
                         type="radio"
                         name="SecondSelector"
+                        autocomplete="off"
                         value="btnCrude"
                     />
                     <label class="form-check-label" for="inlineRadio1">Crude</label>
@@ -90,6 +224,7 @@
                         type="radio"
                         name="ThirdSelector"
                         value="btnIncSPR"
+                        autocomplete="off"
                         checked
                     />
                     <label class="form-check-label" for="inlineRadio1">Commercial + SPR</label>
@@ -100,6 +235,7 @@
                         class="form-check-input"
                         type="radio"
                         name="ThirdSelector"
+                        autocomplete="off"
                         value="btnExlSPR"
                     />
                     <label class="form-check-label" for="inlineRadio1">Commercial</label>
@@ -121,7 +257,8 @@
                 >
                     <div style="margin-top: 25px">
                         <div name="USInventory" style="">
-                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted WTI and Actual Spot Price</h4>
+                            <i> Weekly U.S. Petroleum Inventory Level </i>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph2" style="">
@@ -133,7 +270,8 @@
                         </div>
 
                         <div name="OECDInventory" style="display: block">
-                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted Brent and Actual Spot Price</h4>
+                            <i> Monthly OECD Petroleum Inventory Level </i>
                             <div class="img" id="bargraph3" style="">
                                 <script>
                                     var graphs3 = {{plot3 | safe}};
@@ -143,7 +281,8 @@
                         </div>
 
                         <div name="USCrude" style="display: block">
-                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted WTI and Actual Spot Price</h4>
+                            <i> Weekly U.S. Crude Inventory Level </i>
                             <div class="img" id="bargraph4" style="">
                                 <script>
                                     var graphs4 = {{plot4 | safe}};
@@ -153,7 +292,8 @@
                         </div>
 
                         <div name="OECDCrude" style="display: block">
-                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted Brent and Actual Spot Price</h4>
+                            <i> Monthly OECD Crude Inventory Level </i>
                             <div class="img" id="bargraph5" style="width: 100%">
                                 <script>
                                     var graphs5 = {{plot5| safe}};
@@ -163,7 +303,8 @@
                         </div>
 
                         <div name="USInventory_no_spr" style="width: 100%">
-                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted WTI and Actual Spot Price</h4>
+                            <i> Weekly U.S. Petroleum Inventory Level and Excluding SPR </i>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph6" style="width: 100%">
@@ -175,7 +316,8 @@
                         </div>
 
                         <div name="OECDInventory_no_spr" style="display: block">
-                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted Brent and Actual Spot Price</h4>
+                            <i> Monthly OECD Petroleum Inventory Level, Excluding SPR </i>
                             <div class="img" id="bargraph7" style="width: 100%">
                                 <script>
                                     var graphs7 = {{plot7 | safe}};
@@ -185,7 +327,8 @@
                         </div>
 
                         <div name="USCrude_no_spr" style="display: block">
-                            <h4>PREDICTED WTI AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted WTI and Actual Spot Price</h4>
+                            <i> Weekly U.S. Crude Inventory Level, Excluding SPR</i>
                             <div class="img" id="bargraph8" style="width: 100%">
                                 <script>
                                     var graphs8 = {{plot8 | safe}};
@@ -195,7 +338,8 @@
                         </div>
 
                         <div name="OECDCrude_no_spr" style="display: block">
-                            <h4>PREDICTED BRENT AND ACTUAL SPOT PRICE</h4>
+                            <h4>Predicted Brent and Actual Spot Price</h4>
+                            <i> Monthly OECD Crude Inventory Level, Excluding SPR </i>
                             <div class="img" id="bargraph9" style="width: 100%">
                                 <script>
                                     var graphs9 = {{plot9| safe}};
@@ -504,6 +648,7 @@
                     <div style="margin-top: 25px">
                         <div style="width: 100%">
                             <h4>Scatter plot of WTI and U.S. Petroleum Inventories </h4>
+                            <span> <i> The size of each observation is proportional to geoplitical risk </i></span>
                             <td style="padding-top: 3px"></td>
 
                             <div class="img" id="bargraph1" style="width: 100%">

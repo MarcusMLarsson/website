@@ -165,55 +165,55 @@ def function():
         "Date", "WTI", "Forecast_inventory", "Error_inventory", "Inventory"]].tail(21)
     tableUSInventory.columns = [
         "Date", "WTI", "Forecast", "Error", "Inventory"]
-    tableUSInventory = [tableUSInventory.to_html(
+    tableUSInventory = [tableUSInventory.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableOECDInventory = dfOECDtable[[
         "Date", "Brent", "Forecast_inventory", "Error_inventory", "Inventory"]].tail(21)
     tableOECDInventory.columns = [
         "Date", "Brent", "Forecast", "Error", "Inventory"]
-    tableOECDInventory = [tableOECDInventory.to_html(
+    tableOECDInventory = [tableOECDInventory.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableUSCrude = dfUStable[["Date", "WTI",
                               "Forecast_crude", "Error_crude", "Crude"]].tail(21)
     tableUSCrude.columns = ["Date", "WTI", "Forecast", "Error", "Inventory"]
-    tableUSCrude = [tableUSCrude.to_html(
+    tableUSCrude = [tableUSCrude.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableOECDCrude = dfOECDtable[[
         "Date", "Brent", "Forecast_crude", "Error_crude", "Crude"]].tail(21)
     tableOECDCrude.columns = ["Date", "Brent",
                               "Forecast", "Error", "Inventory"]
-    tableOECDCrude = [tableOECDCrude.to_html(
+    tableOECDCrude = [tableOECDCrude.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableUSInventory_no_spr = dfUStable[[
         "Date", "WTI", "Forecast_inventory_no_spr", "Error_inventory_no_spr", "Inventory_no_spr"]].tail(21)
     tableUSInventory_no_spr.columns = [
         "Date", "WTI", "Forecast", "Error", "Inventory"]
-    tableUSInventory_no_spr = [tableUSInventory_no_spr.to_html(
+    tableUSInventory_no_spr = [tableUSInventory_no_spr.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableOECDInventory_no_spr = dfOECDtable[[
         "Date", "Brent", "Forecast_inventory_no_spr", "Error_inventory_no_spr", "Inventory_no_spr"]].tail(21)
     tableOECDInventory_no_spr.columns = [
         "Date", "Brent", "Forecast", "Error", "Inventory"]
-    tableOECDInventory_no_spr = [tableOECDInventory_no_spr.to_html(
+    tableOECDInventory_no_spr = [tableOECDInventory_no_spr.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableUSCrude_no_spr = dfUStable[[
         "Date", "WTI", "Forecast_crude_no_spr", "Error_crude_no_spr", "Crude_no_spr"]].tail(21)
     tableUSCrude_no_spr.columns = [
         "Date", "WTI", "Forecast", "Error", "Inventory"]
-    tableUSCrude_no_spr = [tableUSCrude_no_spr.to_html(
+    tableUSCrude_no_spr = [tableUSCrude_no_spr.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     tableOECDCrude_no_spr = dfOECDtable[[
         "Date", "Brent", "Forecast_crude_no_spr", "Error_crude_no_spr", "Crude_no_spr"]].tail(21)
     tableOECDCrude_no_spr.columns = [
         "Date", "Brent", "Forecast", "Error", "Inventory"]
-    tableOECDCrude_no_spr = [tableOECDCrude_no_spr.to_html(
+    tableOECDCrude_no_spr = [tableOECDCrude_no_spr.iloc[::-1].to_html(
         classes='mystyle', header="true", index=False)]
 
     USForecast_crude_corr = round(statsUS.iloc[0, 0:1], 3).values[0]
@@ -227,15 +227,15 @@ def function():
     OECDForecast_inventory_no_spr_corr = round(
         statsOECD.iloc[0, 3:4], 3).values[0]
 
-    RMSE_UScrude = (dfUS["Error_crude"] ** 2).mean()
-    RMSE_UScrude_no_spr = (dfUS["Error_crude_no_spr"] ** 2).mean()
-    RMSE_USInventory = (dfUS["Error_inventory"] ** 2).mean()
-    RMSE_USInventory_no_spr = (dfUS["Error_inventory_no_spr"] ** 2).mean()
+    RMSE_UScrude = (dfUS["Error_crude"] ** 2).mean() ** 0.5
+    RMSE_UScrude_no_spr = (dfUS["Error_crude_no_spr"] ** 2).mean() ** 0.5
+    RMSE_USInventory = (dfUS["Error_inventory"] ** 2).mean() ** 0.5
+    RMSE_USInventory_no_spr = (dfUS["Error_inventory_no_spr"] ** 2).mean() ** 0.5
 
-    RMSE_OECDcrude = (dfOECD["Error_crude"] ** 2).mean()
-    RMSE_OECDcrude_no_spr = (dfOECD["Error_crude_no_spr"] ** 2).mean()
-    RMSE_OECDInventory = (dfOECD["Error_inventory"] ** 2).mean()
-    RMSE_OECDInventory_no_spr = (dfOECD["Error_inventory_no_spr"] ** 2).mean()
+    RMSE_OECDcrude = (dfOECD["Error_crude"] ** 2).mean() ** 0.5
+    RMSE_OECDcrude_no_spr = (dfOECD["Error_crude_no_spr"] ** 2).mean() ** 0.5
+    RMSE_OECDInventory = (dfOECD["Error_inventory"] ** 2).mean() ** 0.5
+    RMSE_OECDInventory_no_spr = (dfOECD["Error_inventory_no_spr"] ** 2).mean() ** 0.5
 
     return render_template('oil.html', plot1=plot1, plot2=plot2, plot3=plot3, plot4=plot4, plot5=plot5, plot6=plot6, plot7=plot7, plot8=plot8, plot9=plot9,
                            plot10=plot10, plot11=plot11, tableUSInventory=tableUSInventory, tableOECDInventory=tableOECDInventory, tableUSCrude=tableUSCrude,
@@ -262,13 +262,13 @@ def function():
 
 
 def create_plot1():
-
+    dfUS["Inventory"] = round(dfUS["RIN_inventory"],4)
     fig = px.scatter(dfUS,
-                     x="RIN_inventory", y="WTI", color="Year", size=round(dfUS["GPR"], 2), size_max=31, hover_name="Year",
-                     color_discrete_sequence=px.colors.qualitative.D3, opacity=0.78)
+                     x="Inventory", y="WTI", color="Year", size=round(dfUS["GPR"], 2), size_max=31, hover_name="Year",
+                     color_discrete_sequence=px.colors.qualitative.D3, opacity=0.78,)
     # title="<b> Non-linear Relationship Between the WTI Spot <br> Price and the Relative Inventory Level</b>")
 
-    fig.add_trace(go.Scatter(x=dfUS["RIN_inventory"], y=round(dfUS['Forecast_inventory'], 2),
+    fig.add_trace(go.Scatter(x=dfUS["Inventory"], y=round(dfUS['Forecast_inventory'], 2),
                              mode='lines',
                              line=dict(
         width=1.5,
@@ -322,7 +322,7 @@ def create_plot2():
 
     trace1 = go.Scatter(
         x=dfUS.index,
-        y=dfUS["lower_inventory"],
+        y=round(dfUS["lower_inventory"],2),
         name='',
         yaxis='y1',
         # fill='tonextx',
@@ -333,7 +333,7 @@ def create_plot2():
     )
     trace2 = go.Scatter(
         x=dfUS.index,
-        y=dfUS["upper_inventory"],
+        y=round(dfUS["upper_inventory"],2),
         name='',
         yaxis='y1',
         fill='tonexty',
